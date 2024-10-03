@@ -1,0 +1,97 @@
+=>FULL JOIN(UNION JOIN)
+SYNTAX=>
+
+SELECT col1,col2,col3, .. FROM table1name
+LEFT JOIN table2name
+ON table1name.col = table2name.col
+UNION
+SELECT col1,col2,col3, .. FROM table1name
+RIGHT JOIN table2name
+ON table1name.col = table2name.col;
+
+-------------------------------------------------------------
+
+SELECT * FROM buyers;
+SELECT * FROM orders;
+
+=>INNDER JOIN
+SELECT * FROM buyers
+INNER JOIN orders
+ON buyers.id = orders.buyer_id;
+
+
+=>LEFT JOIN
+SELECT * FROM buyers
+LEFT JOIN orders
+ON buyers.id = orders.buyer_id;
+
+=>RIGHT JOIN
+SELECT * FROM buyers
+RIGHT JOIN orders
+ON buyers.id = orders.buyer_id;
+
+=>FULL JOIN
+SELECT * FROM buyers
+LEFT JOIN orders
+ON buyers.id = orders.buyer_id
+UNION
+SELECT * FROM buyers
+RIGHT JOIN orders
+ON buyers.id = orders.buyer_id;
+
+-------------------------------------------------------------
+
+=>INNDER JOIN
+SELECT * FROM buyers
+ JOIN orders
+ON buyers.id = orders.buyer_id;
+
+=>LEFT OUTER JOIN
+SELECT * FROM buyers
+LEFT JOIN orders
+ON buyers.id = orders.buyer_id;
+
+=>RIGHT OUTER JOIN
+SELECT * FROM buyers
+RIGHT OUTER JOIN orders
+ON buyers.id = orders.buyer_id;
+
+=>FULL JOIN (RESULT 14 removed duplicate rows from the result )
+SELECT * FROM buyers
+LEFT OUTER JOIN orders
+ON buyers.id = orders.buyer_id
+UNION
+SELECT * FROM buyers
+RIGHT OUTER JOIN orders
+ON buyers.id = orders.buyer_id;
+
+=>UNION ALL JOIN (RESULT 20 include all rows from the result)
+SELECT * FROM buyers
+LEFT OUTER JOIN orders
+ON buyers.id = orders.buyer_id
+UNION ALL 
+SELECT * FROM buyers
+RIGHT OUTER JOIN orders
+ON buyers.id = orders.buyer_id;
+
+-------------------------------------------------------------
+
+SELECT firstName,lastName,orderdate,amount FROM buyers
+LEFT OUTER JOIN orders
+ON buyers.id = orders.buyer_id
+UNION  
+SELECT firstName,lastName,orderdate,amount FROM buyers
+RIGHT OUTER JOIN orders
+ON buyers.id = orders.buyer_id;
+
+
+SELECT buyers.firstName,buyers.lastName,orders.orderdate,orders.amount FROM buyers
+LEFT OUTER JOIN orders
+ON buyers.id = orders.buyer_id
+UNION  
+SELECT buyers.firstName,buyers.lastName,orders.orderdate,orders.amount FROM buyers
+RIGHT OUTER JOIN orders
+ON buyers.id = orders.buyer_id;
+
+-------------------------------------------------------------
+

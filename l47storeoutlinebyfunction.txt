@@ -1,0 +1,121 @@
+=>Stored Routines
+
+(i) PROCEDURE (also called Stored PROCEDURE)
+    (1) IN = Input Parameters
+    (2) Out = Output Parameters
+    (3) INOUT = Inout Parameters
+
+(ii) Function
+    (1) Builtin Function
+    (2) User Define Function
+        (a) Input Parameters (Function can be with Parameters or without Parameters / Function always return only 1 value)
+
+
+--------------------------------------------------------------------------
+
+=>(2) User Define Function
+
+SELECT * FROM products;
+SELECT * FROM checkouts;
+
+SELECT products.name ,products.price , checkouts.quantity,(products.price * checkouts.quantity) AS totalamount
+FROM checkouts
+LEFT JOIN products
+ON checkouts.product_id = products.id;
+
+=>grand totalamount
+SELECT SUM(products.price * checkouts.quantity) AS totalamount
+FROM checkouts
+LEFT JOIN products
+ON checkouts.product_id = products.id;
+
+DELIMITER $$
+    CREATE FUNCTION totalamount_fun() 
+    RETURNS DECIMAL DETERMINISTIC
+    BEGIN
+        DECLARE result DECIMAL;
+        SELECT SUM(products.price * checkouts.quantity) INTO result
+        FROM checkouts
+        LEFT JOIN products
+        ON checkouts.product_id = products.id;
+        RETURN result;
+    END $$
+DELIMITER   ;
+
+
+=>SHOW Functions
+SHOW FUNCTION STATUS WHERE DB = "myfirstdatabase";
+
+SELECT totalamount_fun();
+
+=>DROP FUNCTION
+DROP FUNCTION IF EXISTS totalamount_fun;
+
+--------------------------------------------------------------------------
+
+=>With Parameter (single)
+
+SELECT SUM(products.price * checkouts.quantity) AS totalamount
+FROM checkouts
+LEFT JOIN products
+ON checkouts.product_id = products.id
+WHERE products.id = 2;
+
+DELIMITER $$
+    CREATE FUNCTION totalamountbyproductid_fun(p_productid INT) 
+    RETURNS DECIMAL DETERMINISTIC
+    BEGIN
+        DECLARE totalamount DECIMAL;
+        SELECT SUM(products.price * checkouts.quantity) INTO totalamount
+        FROM checkouts
+        LEFT JOIN products
+        ON checkouts.product_id = products.id
+        WHERE products.id = product_id;
+        RETURN totalamount;
+    END $$
+DELIMITER   ;
+
+SHOW FUNCTION STATUS WHERE DB = "myfirstdatabase";
+
+*ERROR
+SELECT totalamountbyproductid_fun();
+
+
+SELECT totalamountbyproductid_fun(1);
+
+
+=>With Multi Parameters 
+
+=>grand totalamount by product id with payment method
+SELECT SUM(products.price * checkouts.quantity) AS totalamount
+FROM checkouts
+LEFT JOIN products
+ON checkouts.product_id = products.id
+WHERE products.id = 2 AND checkouts.payment = "COD";
+
+DELIMITER $$
+    CREATE FUNCTION totalamountbyidandpayment_fun(p_productid INT, p_payment VARCHAR(15)) 
+    RETURNS DECIMAL DETERMINISTIC
+    BEGIN
+        DECLARE totalamount DECIMAL;
+        SELECT SUM(products.price * checkouts.quantity) INTO totalamount
+        FROM checkouts
+        LEFT JOIN products
+        ON checkouts.product_id = products.id
+        WHERE products.id = p_productid AND checkouts.payment = p_payment;
+        RETURN totalamount;
+    END $$
+DELIMITER   ;
+
+SHOW FUNCTION STATUS WHERE DB = "myfirstdatabase";
+
+*ERROR
+SELECT totalamountbyidandpayment_fun();
+SELECT totalamountbyidandpayment_fun(1);
+
+
+SELECT totalamountbyidandpayment_fun(1,"COD");
+SELECT totalamountbyidandpayment_fun(1,"visa");
+
+
+--------------------------------------------------------------------------

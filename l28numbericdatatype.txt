@@ -1,0 +1,212 @@
+=> Numberic Data Types
+
+
+Data Type                   Description
+
+BIT(size)                 A Bit -value type , from 1 to 64 , default value 1
+BOOL                      Zero is considered as false , None-zero are considered as true
+BOOLEAN                   Zero is considered as false , None-zero are considered as true
+
+
+TINYINT(size)             a very small integer, signed range -128 to 127 , unsigned range 0 to 255 
+SMALLINT(size)            a small integer , signed range -3277 to 3276, unsigned range 0 to 6555(6kb)
+MEDIUMINT(size)           a small integer , signed range -8388608 to 8388607, unsigned range 0 to 16,777,215(16mb)
+INT                       a small integer , signed range -2147483648 to 2147483647, unsigned range 0 to 4294967295(4gb)
+INTEGER                   a small integer , signed range -2147483648 to 2147483647, unsigned range 0 to 4294967295(4gb)
+BITNIT()                  a large integer
+
+DECIMAL(size,d)            fixed-point numbers, default value for d is 0
+                            eg., (999.99) is 3 digit and 2 decimal DECIMAL(3,2)
+DEC(size,d)                fixed-point numbers, default value for d is 0
+
+FLOAT(size,p)               a floating point number (approximately value)
+FLOAT(p)                    a floating point number (approximately value) , p is optional , p is from 0 to 24
+DOUBLE(size,p)              a floating point number (approximately value) , p is optional , p is from 25 to 53
+
+
+=>DECIMAL is used for finance such as money
+  FLOAT & DOUBLE is used for science app
+
+------------------------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS items(
+  name VARCHAR(20),
+  price INT,
+  status BOOL
+);
+
+DESC items;
+SHOW CREATE TABLE items;
+
+
+INSERT INTO items(name,price)
+VALUES ('WATER',100),
+        ('COFFEE',150),
+        ('JUICE',250),
+        ('SNACKS',350.56),
+        ('JAM',100.34);
+
+SELECT * FROM items;
+
+INSERT INTO items(name,price,status)
+VALUES ('REDBULL',100,0),
+        ('SHARK',150,1),
+        ('COCACOLA',250,0),
+        ('SUNKIST',350.56,1),
+        ('CAKE',100.34,0);
+
+SELECT * FROM items;
+
+CREATE TABLE IF NOT EXISTS proitems(
+  name VARCHAR(20),
+  purchaseprice INT(4) SIGNED,
+  sellprice INT(4) UNSIGNED
+);
+
+DESC proitems;
+SHOW CREATE TABLE proitems;
+
+INSERT INTO proitems(name,purchaseprice,sellprice)
+VALUES ('WATER',9000,9500),
+        ('COFFEE',-150,200),
+        ('JUICE',250,100),
+        ('SNACKS',-350.56,300.77),
+        ('JAM',-1000,2000);
+
+SELECT * FROM proitems;
+
+//ERROR OUT OF RANGE
+INSERT INTO proitems(name,purchaseprice,sellprice)
+VALUES ('WATER',9000,-9500);
+
+SELECT * FROM proitems;
+
+------------------------------------------------------------------------------
+
+
+DECIMAL(5,2)
+eg., (999.99) is 5 digit and 2 decimal place
+
+decimal(5,3) = 20.244
+                20.5 = 20.500
+                20.5464549 = 20.546(warning)
+
+
+CREATE TABLE IF NOT EXISTS sellitems(
+  name VARCHAR(20),
+  price DECIMAL(6,2)
+);
+
+DESC sellitems;
+SHOW CREATE TABLE sellitems;
+
+//RESULT = 100.23
+INSERT INTO sellitems(name,price)
+VALUE ('COFFEE',100.23);
+
+//RESULT = 1000.01
+INSERT INTO sellitems(name,price)
+VALUE ('REDBULL',1000.01);
+
+//RESULT = 1000.99
+INSERT INTO sellitems(name,price)
+VALUE ('SUNKIST',1000.99);
+
+//RESULT = 1001.00
+INSERT INTO sellitems(name,price)
+VALUE ('COCACOLA',1000.9958);
+
+//RESULT = 1000.99
+INSERT INTO sellitems(name,price)
+VALUE ('COCACOLA',1000.9858);
+
+//RESULT = 1000.00
+INSERT INTO sellitems(name,price)
+VALUE ('TURBO',1000);
+
+//ERROR
+INSERT INTO sellitems(name,price)
+VALUE ('OLAY',100000);
+
+SELECT * FROM sellitems;
+
+------------------------------------------------------------------------------
+
+//=> FLOAT() Vs DOUBLE()
+
+CREATE TABLE IF NOT EXISTS shoppings(
+  name VARCHAR(20),
+  purchaseprice FLOAT,
+  sellprice FLOAT(4)
+);
+
+DESC shoppings;
+SHOW CREATE TABLE shoppings;
+
+INSERT INTO shoppings(name,purchaseprice,sellprice)
+VALUES ('WATER',100,100),
+        ('COFFEE',500,500.34),
+        ('JUICE',800,800.56),
+        ('SNACKS',350,350.889),
+        ('JAM',100,10000);
+
+SELECT * FROM shoppings;
+
+//RESULT = 112233
+INSERT INTO shoppings(name,purchaseprice,sellprice)
+VALUES ('BIRDNEST',112233,112233.45);
+
+//RESULT = 11223300
+INSERT INTO shoppings(name,purchaseprice,sellprice)
+VALUES ('BIRDNEST',11223344.45,11223344.45);
+
+//RESULT = 1122330000
+INSERT INTO shoppings(name,purchaseprice,sellprice)
+VALUES ('BIRDNEST',1122334455.45,1122334455.45);
+
+SELECT * FROM shoppings;
+
+-----------------------------------------------
+
+
+CREATE TABLE IF NOT EXISTS buyings(
+  name VARCHAR(20),
+  purchaseprice FLOAT,
+  sellprice DOUBLE
+);
+
+DESC buyings;
+SHOW CREATE TABLE buyings;
+
+INSERT INTO shoppings(name,purchaseprice,sellprice)
+VALUES ('WATER',100,100),
+        ('COFFEE',500.34,500.34),
+        ('JUICE',800.56,800.56),
+        ('SNACKS',350.889,350.889),
+        ('JAM',10000,10000);
+
+SELECT * FROM buyings;
+
+//RESULT = 112233 , 112233.45
+INSERT INTO buyings(name,purchaseprice,sellprice)
+VALUES ('BIRDNEST',112233.45,112233.45);
+
+//RESULT = 11223300 , 11223344.45
+INSERT INTO buyings(name,purchaseprice,sellprice)
+VALUES ('WATER',11223344.45,11223344.45);
+
+//RESULT = 1122330000  ,  1122334455.45
+INSERT INTO buyings(name,purchaseprice,sellprice)
+VALUES ('BIRDNEST',1122334455.45,1122334455.45);
+
+//RESULT = 112233e17  ,  11223344556677889e17
+INSERT INTO buyings(name,purchaseprice,sellprice)
+VALUES ('BIRDNEST',112233445566778899.45,112233445566778899.45);
+
+SELECT * FROM buyings;
+
+------------------------------------------------------------------------------
+
+=>e/E
+HTML input number type allow 'e/E' cuz e stand for exponential (exponent) which is a numeric symbol
+eg. 200000 can be written as 2e5 (3e4 = 3 * 10^4 = 3000)

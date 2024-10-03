@@ -1,0 +1,59 @@
+=>COPY / CLONE / DUPLICATE Table
+
+=>syntax
+
+CREATE TABLE IF NOT EXISTS tablename
+SELECT col1,col2,col3
+FROM EXISTING tablename;
+
+CREATE TABLE IF NOT EXISTS tablename
+SELECT col1,col2,col3
+FROM EXISTING tablename
+WHERE condition;
+
+--------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS orgtable(
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    productname VARCHAR(25) NOT NULL,
+    brandname VARCHAR(25) DEFAULT NULL,
+    madeby VARCHAR(25) DEFAULT NULL,
+    year YEAR NOT NULL
+);
+
+DESC orgtable;
+SHOW CREATE TABLE orgtable;
+SHOW INDEX FROM orgtable;
+
+INSERT INTO orgtable (productname,brandname,madeby,year)
+VALUES ('AV25','AUSU','CHINA',2020),
+('GALAXY12','SAMSUNG','CHINA',2022),
+('AV25','OPPO','CHINA',2023),
+('AV25','SONY','CHINA',2022),
+('AV28','AUSU','CHINA',2023),
+('IPHONE','APPLE','CHINA',2020),
+('AV25','VIVO','CHINA',2023),
+('AV25','AUSU','CHINA',2020),
+('GALAXY13','SAMSUNG','CHINA',2023),
+('IPHONE','APPLE','CHINA',2021),
+('V25','VIVO','CHINA',2022);
+
+SELECT * FROM orgtable;
+
+
+CREATE TABLE IF NOT EXISTS duplicatetable
+SELECT * FROM orgtable;
+
+SHOW CREATE TABLE duplicatetable;
+SHOW INDEX FROM duplicatetable;
+
+
+CREATE TABLE IF NOT EXISTS clonetable
+SELECT productname,year FROM clonetable
+WHERE year = 2023;
+
+SELECT * FROM clonetable;
+
+--------------------------------------------------------------
+
+

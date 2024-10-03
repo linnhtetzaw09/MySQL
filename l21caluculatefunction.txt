@@ -1,0 +1,155 @@
+=>COUNT() , SUM() , AVG(), MIN(), MAX() = Aggregate Function
+
+Syntax = COUNT()
+SELECT COUNT(column) FROM tablename
+WHERE condition;
+
+Syntax = SUM()
+SELECT SUM(column) FROM tablename
+WHERE condition;
+
+Syntax = AVG()
+SELECT AVG(column) FROM tablename
+WHERE condition;
+
+Syntax = MIN()
+SELECT MIN(column) FROM tablename
+WHERE condition;
+
+Syntax = MAX()
+SELECT MAX(column) FROM tablename
+WHERE condition;
+
+--------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS customers(
+    id INT NOT NULL AUTO_INCREMENT,
+    firstName VARCHAR(30) NOT NULL,
+    lastName VARCHAR(30) NOT NULL,
+    age INT NOT NULL,
+    gender VARCHAR(15) NOT NULL,
+    city VARCHAR(30) NOT NULL,
+    amount DECIMAL(8,2) DEFAULT 0,
+    PRIMARY KEY (id)
+);
+
+DESC customers;
+SHOW INDEX FROM customers;
+SHOW CREATE TABLE customers;
+
+
+INSERT INTO customers (firstName,lastName,age,gender,city,amount)
+VALUES ("LIN","HTET",21,"MALE","MANDALAY",50000),
+        ("LIN","LIN",20,"MALE","YANGON",30000),
+        ("HTET","HTET",21,"FEMALE","MANDALAY",80000),
+        ("ZAW","ZAW",27,"MALE","MAGWAY",58000),
+        ("LIN","ZAW",24,"MALE","BAGO",65000),
+        ("HTET","ZAW",21,"FEMALE","MANDALAY",9000),
+        ("CHAN","HTET",21,"FEMALE","PYAY",49000),
+        ("LIN","CHAN",25,"MALE","MANDALAY",8000),
+        ("CHAN","LIN",28,"FEMALE","MAYMYO",59000),
+        ("HEIN","HTET",31,"MALE","MYEIK",67000),
+        ("HEIN","ZAW",21,"FEMALE","MANDALAY",8900);
+
+SELECT * FROM customers;
+
+--------------------------------------------------------
+
+=> COUNT()
+
+SELECT * FROM customers
+WHERE amount > 10000;
+
+SELECT COUNT(amount) FROM customers
+WHERE amount > 10000;
+
+SELECT * FROM customers
+WHERE firstName = "LIN";
+
+SELECT COUNT(firstName) FROM customers
+WHERE firstName = "LIN";
+
+SELECT COUNT(id) FROM customers
+WHERE firstName = "LIN";
+
+
+--------------------------------------------------------
+
+=>SUM()
+
+SELECT * FROM customers
+WHERE amount > 50000;
+
+SELECT SUM(amount) FROM customers
+WHERE amount > 50000;
+
+SELECT * FROM customers
+WHERE city = "MANDALAY";
+
+SELECT SUM(amount) FROM customers
+WHERE city = "MANDALAY";
+
+--------------------------------------------------------
+
+=>AVG()
+
+SELECT * FROM customers
+WHERE city = "MANDALAY";
+
+SELECT AVG(amount) FROM customers
+WHERE city = "MANDALAY";
+
+SELECT AVG(age) FROM customers
+WHERE city = "MANDALAY";
+
+--------------------------------------------------------
+
+=>MIN()
+
+SELECT MIN(age) FROM customers;
+SELECT MIN(amount) FROM customers;
+
+//8000
+SELECT MIN(amount) FROM customers
+WHERE city = "MANDALAY";
+
+SELECT * FROM customers
+WHERE amount = 50000;
+
+SELECT * FROM customers
+WHERE amount = (SELECT MIN(amount) FROM customers
+WHERE city = "MANDALAY");
+
+SELECT * FROM customers
+WHERE amount = (SELECT MIN(amount) FROM customers);
+
+//ERROR
+SELECT firstName,MIN(amount) FROM customers
+WHERE city = "MANDALAY";
+
+--------------------------------------------------------
+
+=>MAX()
+
+SELECT MAX(age) FROM customers;
+SELECT MAX(amount) FROM customers;
+
+//80000
+SELECT MAX(amount) FROM customers
+WHERE city = "MANDALAY";
+
+SELECT * FROM customers
+WHERE amount = 80000;
+
+SELECT * FROM customers
+WHERE amount = (SELECT MAX(amount) FROM customers
+WHERE city = "MANDALAY");
+
+SELECT * FROM customers
+WHERE amount = (SELECT MAX(amount) FROM customers);
+
+//ERROR
+SELECT firstName,MAX(amount) FROM customers
+WHERE city = "MANDALAY";
+
+--------------------------------------------------------

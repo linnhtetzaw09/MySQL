@@ -1,0 +1,39 @@
+=>Replace
+
+Syntax
+SELECT REPLACE(string,"old","new");
+
+--------------------------------------------------------------
+
+SELECT REPLACE("HELLO","HELL","ZER");
+
+&no action case sensitive
+SELECT REPLACE("HELLO","hell","ZER");
+SELECT REPLACE("HELLO","hELLO","ZER");
+
+
+SELECT REPLACE("HELLO WORLD","O","*");
+SELECT REPLACE("HELLO WORLD","L","3");
+
+&no action case sensitive
+SELECT REPLACE("HELLO WORlD","L","2");
+
+
+SELECT REPLACE("COFFEE MILK WATER JUICE SMOTHIEE"," "," and ");
+
+
+--------------------------------------------------------------
+
+SELECT * FROM persons;
+
+SELECT city FROM persons;
+
+SELECT REPLACE(city,"m","M") FROM persons;
+SELECT REPLACE(city,"m","M") AS Capital FROM persons;
+
+--------------------------------------------------------------
+
+
+
+
+

@@ -1,0 +1,99 @@
+=> CASE Statement
+=>syntax
+
+SELECT col1,col2,col3, ... ,
+    CASE
+        WHEN year > 2000 THEN ""
+        ELSE ""
+    END AS ...
+FROM tablename;
+
+SELECT col1,col2,col3, ... ,
+    CASE
+        WHEN year > 2000 THEN ""
+        WHEN year < 2000 THEN ""
+        ELSE ""
+    END AS ...
+FROM tablename;
+
+--------------------------------------------------------------------
+
+SELECT firstName,lastName,age,city,amount,
+    CASE
+        WHEN age < 18 THEN "Young"
+        ELSE "Elder"
+    END AS "AGE verify"
+FROM customers;
+
+
+SELECT firstName,lastName,age,city,amount, 
+    CASE
+        WHEN age < 20 THEN "Young"
+        WHEN age = 21 THEN "Legal"
+        ELSE "Elder"
+    END AS "AGE verify"
+FROM customers;
+
+
+SELECT firstName,lastName,age,city,amount, 
+    CASE
+        WHEN age < 18 THEN "Young"
+        WHEN age >= 18 AND age <=30 THEN "elder"
+        ELSE "retired"
+    END AS "AGE verify"
+FROM customers;
+
+--------------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS handsets(
+    id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(100),
+    sellprice DECIMAL(10,2),
+    stock INT,
+    PRIMARY KEY(id)
+);
+
+DESC handsets;
+SHOW CREATE TABLE handsets;
+
+INSERT INTO handsets(name,sellprice,stock)
+VALUES ('SAMSUNG NOTE 4',900000,20),
+('SAMSUNG S10',1900000,50),
+('SAMSUNG S20 ULTRA',3500000,20),
+('SAMSUNG NOTE 8',100000,30),
+('IPHONE 13',2000000,25),
+('IPHONE 11',1800000,16),
+('IPHONE 15',3500000,35),
+('SONY E9',1800000,30),
+('SONY E10',2300000,18),
+('NOTHING 5',3000000,10),
+('NOTHING X',3500000,14),
+('HUAWEI S12',3000000,18),
+('SONY S11',2000000,20),
+('SAMSUNG GALAXY12',1500000,18),
+('SAMSUNG GALAXY15',1900000,15);
+
+SELECT * FROM handsets;
+
+
+SELECT name,sellprice,stock,
+    CASE
+        WHEN stock BETWEEN 1 AND 18 THEN "MAXIMUN ORDER 3"
+        WHEN stock BETWEEN 18 AND 25 THEN "MAXIMUN ORDER 5"
+        WHEN stock BETWEEN 25 AND 35 THEN "MAXIMUN ORDER 10"
+        WHEN stock BETWEEN 35 AND 50 THEN "UP TO AVAILABLE 20"
+        ELSE "OUT OF STOCK"
+    END AS "stock control"
+FROM handsets;
+
+SELECT name,sellprice,stock,
+    CASE
+        WHEN stock BETWEEN 1 AND 18 THEN "*"
+        WHEN stock BETWEEN 18 AND 25 THEN "**"
+        WHEN stock BETWEEN 25 AND 35 THEN "***"
+        WHEN stock BETWEEN 35 AND 50 THEN "****"
+        ELSE "OUT OF STOCK"
+    END AS "stock control"
+FROM handsets;
+
+--------------------------------------------------------------------

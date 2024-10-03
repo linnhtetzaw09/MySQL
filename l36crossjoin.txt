@@ -1,0 +1,81 @@
+=>JOIN
+
+1. INNER JOIN(SIMPLE JOIN)
+2. LEFT OUTER JOIN (LEFT JOIN)
+3. RIGHT OUTER JOIN (RIGHT JOIN)
+4. FULL JOIN
+
+NOTE:: Relation Basic NOTE
+1. ONE TO ONE Relationship
+2. ONE TO MANY Relationship
+3.MANY TO MANY Relationship
+
+-----------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS buyers(
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    firstName VARCHAR(10),
+    lastName VARCHAR(15),
+    email VARCHAR(30)
+);
+
+DESC buyers;
+SHOW CREATE TABLE buyers;
+SHOW INDEX FROM buyers;
+
+INSERT INTO buyers (firstName,lastName,email)
+VALUES ('LIN','LIN','linlin@gmail.com),
+ ('LIN','HTET','linhtet@gmail.com),
+ ('LIN','ZAW','linzaw@gmail.com),
+ ('HTET','LIN','htetlin@gmail.com),
+ ('HTET','ZAW','htetzaw@gmail.com),
+ ('ZAW','LIN','zawlin@gmail.com),
+ ('ZAW','HTET','zawhtet@gmail.com),
+ ('SU','SU','susu@gmail.com),
+ ('HLA','HLA','hlahla@gmail.com),
+ ('NI','NI','nini@gmail.com);
+
+SELECT * FROM buyers;
+
+
+CREATE TABLE IF NOT EXISTS orders(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    orderdate DATE,
+    amount DECIMAL(10,2),
+    buyer_id INT 
+);
+
+DESC orders;
+SHOW CREATE TABLE orders;
+SHOW INDEX FROM orders;
+
+INSERT INTO orders (orderdate,amount,buyer_id)
+VALUES ('2024/5/1',50.25,2),
+('2024/6/1',70.48,1),
+('2024/6/15',40.25,6),
+('2024/6/17',50.25,6),
+('2024/5/23',50.78,9),
+('2024/5/25',69.78,10);
+
+INSERT INTO orders (orderdate,amount,buyer_id)
+VALUES ('2024/6/11',50.78,11),
+('2024/6/12',80.78,11),
+('2024/5/13',90.78,12);
+
+SELECT * FROM buyers;
+SELECT * FROM orders;
+
+-----------------------------------------------------------
+
+=>Cross JOIN
+
+SELECT * FROM buyers;
+SELECT * FROM orders;
+
+SELECT * FROM buyers,orders;
+SELECT * FROM orders,buyers;
+
+
+-----------------------------------------------------------
+
+

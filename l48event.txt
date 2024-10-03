@@ -1,0 +1,183 @@
+=>EVENT
+
+=>EVENT TYPE (Schedule)
+
+(i) One time EVENT
+(ii) Recurring EVENT
+
+=>Check EVENT ON/OFF 
+SHOW PROCESSLIST;
+
+SET GLOBAL event_scheduler = ON;
+SET GLOBAL event_scheduler = OFF;
+
+-----------------------------------------------------------------------
+
+SHOW PROCESSLIST;
+
+=>(i) One time EVENT
+=>Syntax
+
+=>method 1
+
+CREATE EVENT eventname
+ON SCHEDULE AT timestamp
+DO
+Statements;
+
+=>method 2
+
+CREATE EVENT eventname
+ON SCHEDULE AT timestamp
+ON COMPLETION PRESERVE
+DO
+Statements;
+
+
+=>(ii) Recurring EVENT
+
+=>method 1
+
+CREATE EVENT eventname
+ON SCHEDULE EVERY INTERVAL
+STARTS timestamp
+DO
+Statements;
+
+=>method 2
+
+CREATE EVENT eventname
+ON SCHEDULE EVERY INTERVAL
+STARTS timestamp
+ENDS timestamp
+DO
+Statements;
+
+-----------------------------------------------------------------------
+
+=>(i) One time EVENT
+
+CREATE TABLE IF NOT EXISTS vipusers(
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(15) NOT NULL,
+    email VARCHAR(50) NOT NULL UNIQUE,
+    emailverify INT
+);
+
+DESC vipusers;
+SHOW CREATE TABLE vipusers;
+SHOW INDEX FROM vipusers;
+
+INSERT INTO vipusers (name,email,emailverify)
+VALUES ('LIN LIN','linlin@gmail.com',1),
+('HTET HTET','htethtet@gmail.com',1),
+('ZAW ZAW','zawzaw@gmail.com',1),
+('CHAN CHAN','chanchan@gmail.com',1),
+('MYAT MYAT','myatmyat@gmail.com',1);
+
+INSERT INTO vipusers (name,email)
+VALUES ('SU SU','susu@gmail.com'),
+('NU NU','nunu@gmail.com'),
+('MU MU','mumu@gmail.com'),
+('PO PO','popo@gmail.com'),
+('NO NO','nono@gmail.com');
+
+SELECT * FROM vipusers;
+
+=>method 1
+CREATE EVENT vipusers_ev
+ON SCHEDULE AT CURRENT_TIMESTAMP + INTERVAL 30 SECOND
+DO 
+DELETE FROM vipusers WHERE emailverify IS NULL;
+
+=>LIST EVENT
+SHOW EVENTS;
+
+SHOW EVENTS;
+SELECT * FROM vipusers;
+
+INSERT INTO vipusers (name,email)
+VALUES ('SU SU','susu@gmail.com'),
+('NU NU','nunu@gmail.com'),
+('MU MU','mumu@gmail.com'),
+('PO PO','popo@gmail.com'),
+('NO NO','nono@gmail.com');
+
+
+=>method 2
+CREATE EVENT vipusers_ev
+ON SCHEDULE AT CURRENT_TIMESTAMP + INTERVAL 30 SECOND
+ON COMPLETION PRESERVE
+DO 
+DELETE FROM vipusers WHERE emailverify IS NULL;
+
+=>LIST EVENT
+SHOW EVENTS;
+
+SHOW EVENTS;
+SELECT * FROM vipusers;
+
+=>DROP EVENT
+DROP EVENT IF EXISTS vipusers_ev;
+
+-----------------------------------------------------------------------
+
+=>(ii) Recurring EVENT
+
+CREATE TABLE IF NOT EXISTS dailywifipws(
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    password VARCHAR(8) NOT NULL UNIQUE,
+    status INT DEFAULT 1
+);
+
+DESC dailywifipws;
+SHOW CREATE TABLE dailywifipws;
+SHOW INDEX FROM dailywifipws;
+
+INSERT INTO dailywifipws (password,status)
+VALUES ('1111',2),
+('2222',2),
+('3333',2),
+('4444',2),
+('5555',1);
+
+SELECT * FROM dailywifipws;
+
+UPDATE dailywifipws SET status = 2 
+WHERE status = 1;
+
+=>method 1
+
+CREATE EVENT dailywifipws_ev
+ON SCHEDULE EVERY 1 DAY
+STARTS "2024-7-17 21:13:00"
+DO
+UPDATE dailywifipws SET status = 2 
+WHERE status = 1;
+
+SHOW EVENTS;
+SELECT * FROM dailywifipws;
+
+DROP EVENT IF EXISTS dailywifipws_ev;
+
+
+=>method 2
+
+INSERT INTO dailywifipws (password,status)
+VALUES ('6666',1);
+
+INSERT INTO dailywifipws (password,status)
+VALUES ('7777',1);
+
+CREATE EVENT dailywifipwswithend_ev
+ON SCHEDULE EVERY 2 DAY
+STARTS "2024-7-17 21:22:00"
+ENDS "2024-10-25 21:13:00"
+DO
+UPDATE dailywifipws SET status = 2 
+WHERE status = 1;
+
+SHOW EVENTS;
+SELECT * FROM dailywifipws;
+
+-----------------------------------------------------------------------

@@ -1,0 +1,20 @@
+=>default value
+
+
+CREATE TABLE IF NOT EXISTS mobliles(
+    brand VARCHAR(30),
+    madeby VARCHAR(30) DEFAULT 'chaina'
+);
+
+DESC mobliles;
+
+INSERT INTO mobliles(brand,madeby)  VALUE("Apple","USA");
+INSERT INTO mobliles(brand,madeby)  VALUE("Samsung","Korea");
+INSERT INTO mobliles(brand,madeby)  VALUE("Huawei");
+INSERT INTO mobliles(madeby)  VALUE("Japan");
+INSERT INTO mobliles()  VALUE();
+INSERT INTO mobliles  VALUE();
+
+SELECT * FROM mobliles;
+
+-------------------------------------------------------------------------------

@@ -1,0 +1,34 @@
+=>ORDER BY (for use sorting)
+
+Syntax
+
+SELECT column1,column2,column3, .. FROM tablename
+ORDER BY column ASC|DESC;
+
+-------------------------------------------------------
+
+SELECT * FROM engineers;
+
+SELECT * FROM engineers ORDER BY firstName ASC;
+SELECT * FROM engineers ORDER BY firstName DESC;
+
+SELECT * FROM engineers ORDER BY firstName;
+SELECT * FROM engineers ORDER BY age;
+
+SELECT * FROM engineers ORDER BY age > 20 ASC;
+SELECT * FROM engineers ORDER BY age < 20 DESC;
+
+SELECT * FROM engineers ORDER BY firstName ASC;
+SELECT * FROM engineers ORDER BY firstName,age;
+
+SELECT * FROM engineers ORDER BY 2;
+SELECT * FROM engineers ORDER BY 3;
+SELECT * FROM engineers ORDER BY 4;
+
+-------------------------------------------------------
+
+
+
+
+
+

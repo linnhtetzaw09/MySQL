@@ -1,0 +1,63 @@
+=> Insert Single Data
+
+Method 1 Syntax 
+INSERT INTO tablename (column1,column2,column3,...) VALUE(value1,value2,value3,...);
+
+Method 2 Syntax 
+INSERT INTO tablename VALUE(value1,value2,value3,...);
+
+
+=> Insert Multiple datatypes
+
+Method 1 Syntax 
+INSERT INTO tablename (column1,column2,column3,...) VALUES(value1,value2,value3,...),(value1,value2,value3,...), ........;
+
+Method 2 Syntax 
+INSERT INTO tablename VALUE(value1,value2,value3,...),(value1,value2,value3,...), ......;
+
+----------------------------------------------------------------------------------
+
+=>Exercises
+
+CREATE TABLE IF NOT EXISTS persons(
+    id INT,
+    firstName VARCHAR(20),
+    lastName VARCHAR(20),
+    city VARCHAR(20),
+    address VARCHAR(30)
+);
+
+DESC persons;
+
+INSERT INTO persons (id,firstName,lastName,city,addrress)
+VALUE (1,"Lin Htet","Zaw","Mandalay","58*59 41C");
+
+INSERT INTO persons (id,firstName,lastName,city,addrress)
+VALUE (1,"Lin","Zaw","ygn","58*59 41C");
+
+INSERT INTO persons (id,firstName,lastName,addrress,city)
+VALUE (3,"Lin","Htet","ygn","58*59 41C");
+
+INSERT INTO persons (id,firstName,lastName,addrress,city)
+VALUE (4,"Lin","Htet","58*59 41C","Magway");
+
+INSERT INTO persons VALUE (5,"Hla","Hla","Pyay","58*59 41C");
+INSERT INTO persons VALUES (6,"Mya","Mya","Bago","58*59 41C");
+
+
+SELECT * FROM persons;
+
+
+INSERT INTO persons (id,firstName,lastName,city,address)
+VALUES (7,"Htet","Zaw","Maymyo","58*59 41C"), (8,"Zaw","Zaw","Maymyo","58*59 41C"), 
+        (9,"Htet","Htet","Maymyo","58*59 41C"),(10,"Lin","Lin","Maymyo","58*59 41C");
+
+INSERT INTO persons VALUES (11,"Htoo","Zaw","Minbu","58*59 41C"), (12,"Aung","Zaw","Meikhtila","58*59 41C"), 
+                            (13,"Htet","Aung","Myeik","58*59 41C"),(14,"Lin","Aung","Mawlamyine","58*59 41C");
+
+
+SELECT * FROM persons;
+
+----------------------------------------------------------------------------------
+
+

@@ -1,0 +1,209 @@
+
+CREATE TABLE IF NOT EXISTS officestaffs(
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(15),
+    age INT,
+    salary DECIMAL(10,2),
+    status INT DEFAULT 1
+);
+
+DESC officestaffs;
+SHOW CREATE TABLE officestaffs;
+SHOW INDEX FROM officestaffs;
+
+INSERT INTO officestaffs (name,age,salary)
+VALUES ('LIN LIN',20,500000),
+('LIN HTET',30,200000),
+('LIN ZAW',46,300000),
+('HTET LIN',18,400000),
+('ZAW LIN',17,250000);
+
+SELECT * FROM officestaffs;
+
+
+CREATE TABLE IF NOT EXISTS salarylog(
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    oldsalary DECIMAL(10,2) NOT NULL,
+    newsalary DECIMAL(10,2) NOT NULL,
+    officestaff_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT NOW(),
+    update_at TIMESTAMP DEFAULT NOW() ON UPDATE NOW(),
+    FOREIGN KEY(officestaff_id) REFERENCES officestaffs(id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+DESC salarylog;
+SHOW CREATE TABLE salarylog;
+SHOW INDEX FROM salarylog;
+
+---------------------------------------------------------------------------------------------------
+
+=>BEFORE UPDATE
+
+DELIMITER $$
+
+CREATE TRIGGER officestaffsalarylog_bfu
+BEFORE UPDATE ON officestaffs FOR EACH ROW
+
+BEGIN
+    IF NEW.salary != OLD.salary THEN 
+        INSERT INTO salarylog (oldsalary, newsalary, officestaff_id)
+        VALUES (OLD.salary, NEW.salary, OLD.id);
+    END IF;
+END$$
+
+DELIMITER ;
+
+SHOW TRIGGERS;
+
+SELECT * FROM officestaffs;
+SELECT * FROM salarylog;
+
+//no action on salarylog
+UPDATE officestaffs SET age = 25 WHERE id=1;
+
+SELECT * FROM officestaffs;
+SELECT * FROM salarylog;
+
+//no action on salarylog
+UPDATE officestaffs SET status = 2 WHERE id=5;
+
+SELECT * FROM officestaffs;
+SELECT * FROM salarylog;
+
+
+UPDATE officestaffs SET salary = 350000 WHERE id=3;
+
+SELECT * FROM officestaffs;
+SELECT * FROM salarylog;
+
+UPDATE officestaffs SET salary = 500000 WHERE id=4;
+UPDATE officestaffs SET salary = 300000 WHERE id=5;
+
+SELECT * FROM officestaffs;
+SELECT * FROM salarylog;
+
+
+INSERT INTO officestaffs (name,age,salary)
+VALUES ('SU SU',30,500000),
+('NU NU',40,300000);
+
+SELECT * FROM officestaffs;
+SELECT * FROM salarylog;
+
+---------------------------------------------------------------------------------------------------
+
+(Multi trigger -> Trigger to Trigger)
+
+=>BEFORE UPDATE (FOLLOWS)
+
+CREATE TABLE IF NOT EXISTS salarydifflogs(
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    diffamount DECIMAL(10,2) NOT NULL,
+    officestaff_id INT NOT NULL,
+    update_by VARCHAR(15) NOT NULL,
+    FOREIGN KEY(officestaff_id) REFERENCES officestaffs(id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+DESC salarydifflogs;
+SHOW CREATE TABLE salarydifflogs;
+SHOW INDEX FROM salarydifflogs;
+
+
+DELIMITER $$
+
+CREATE TRIGGER officestaffsalarydiff_bfuf
+BEFORE UPDATE ON officestaffs FOR EACH ROW FOLLOWS officestaffsalarylog_bfu
+
+BEGIN
+
+    DECLARE dbuser VARCHAR(15);
+    DECLARE newsalary INT;
+    DECLARE oldsalary INT;
+    DECLARE Diff INT;
+
+    SELECT USER() INTO dbuser;
+
+    SET @newsalary := NEW.salary;
+    SET @oldsalary := OLD.salary;
+    SET @Diff := @newsalary - @oldsalary;
+
+    IF NEW.salary != OLD.salary THEN 
+        INSERT INTO salarydifflogs (diffamount, officestaff_id, update_by)
+        VALUES (Diff, OLD.id, dbuser);
+    END IF;
+END$$
+
+DELIMITER ;
+
+SHOW TRIGGERS;
+
+UPDATE officestaffs SET salary = 600000 WHERE id = 6;
+
+UPDATE officestaffs SET salary = 500000 WHERE id = 7;
+UPDATE officestaffs SET salary = 300000 WHERE id = 1;
+
+
+SELECT * FROM officestaffs;
+SELECT * FROM salarylog;
+SELECT * FROM salarydifflogs;
+
+---------------------------------------------------------------------------------------------------
+
+(Multi trigger -> Trigger to Trigger)
+
+=>BEFORE UPDATE (PRECEDES)
+
+CREATE TABLE IF NOT EXISTS paydifflogs(
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    diffamount DECIMAL(10,2) NOT NULL,
+    officestaff_id INT NOT NULL,
+    update_by VARCHAR(15) NOT NULL,
+    FOREIGN KEY(officestaff_id) REFERENCES officestaffs(id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+DESC paydifflogs;
+SHOW CREATE TABLE paydifflogs;
+SHOW INDEX FROM paydifflogs;
+
+
+DELIMITER $$
+
+CREATE TRIGGER officestaffsalarydiff_bfup
+BEFORE UPDATE ON officestaffs FOR EACH ROW FOLLOWS officestaffsalarylog_bfu
+
+BEGIN
+
+    DECLARE dbuser VARCHAR(15);
+    DECLARE newsalary INT;
+    DECLARE oldsalary INT;
+    DECLARE Diff INT;
+
+    SELECT USER() INTO dbuser;
+
+    SET @newsalary := NEW.salary;
+    SET @oldsalary := OLD.salary;
+    //SET Diff = @newsalary - @oldsalary;
+    SET @Diff := @newsalary - @oldsalary;
+
+    IF NEW.salary != OLD.salary THEN 
+        INSERT INTO paydifflogs (diffamount, officestaff_id, update_by)
+        VALUES (@Diff, OLD.id, dbuser);
+    END IF;
+END$$
+
+DELIMITER ;
+
+SHOW TRIGGERS;
+
+UPDATE officestaffs SET salary = 500000 WHERE id = 2;
+
+UPDATE officestaffs SET salary = 500000 WHERE id = 7;
+
+
+SELECT * FROM officestaffs;
+SELECT * FROM salarylog;
+SELECT * FROM salarydifflogs;
+SELECT * FROM paydifflogs;
+
+---------------------------------------------------------------------------------------------------
+

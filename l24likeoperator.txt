@@ -1,0 +1,76 @@
+=>Like Operators
+
+Syntax
+
+SELECT column1,column2,column3, ... FROM tablename
+WHERE column LIKE pattern;
+
+=>LIKE Operators pattern
+
+WHERE column LIKE "a%"          Find any values that start with 'a'
+WHERE column LIKE "%a"          Find any values that end with 'a'
+WHERE column LIKE "%or%"         Find any values that have 'or' in any position
+WHERE column LIKE "_r%"          Find any values that have 'r' in the second position
+WHERE column LIKE "r_%"          Find any values that start with 'r' and least 2 characters in length
+WHERE column LIKE "r__%"          Find any values that start with 'r' and least 3 characters in length
+WHERE column LIKE "a%o"          Find any values that start with 'a' and ending with 'o'
+
+---------------------------------------------------------------------------------------
+
+SELECT firstName,lastName,age,city FROM customers;
+
+SELECT firstName,lastName,age,city FROM customers
+WHERE firstName = "LIN";
+
+SELECT firstName,lastName,age,city FROM customers
+WHERE firstName LIKE "LIN";
+
+//NO ACTION
+SELECT firstName,lastName,age,city FROM customers
+WHERE firstName = "L%";
+
+SELECT firstName,lastName,age,city FROM customers
+WHERE firstName LIKE "L%";
+
+SELECT firstName,lastName,age,city FROM customers
+WHERE firstName LIKE "%T";
+
+SELECT firstName,lastName,age,city FROM customers
+WHERE firstName LIKE "%W";
+
+SELECT firstName,lastName,age,city FROM customers
+WHERE firstName LIKE "_A%";
+
+SELECT firstName,lastName,age,city FROM customers
+WHERE firstName LIKE "A__%";
+
+SELECT firstName,lastName,age,city FROM customers
+WHERE firstName LIKE "H%T";
+
+---------------------------------------------------------------------------------------
+
+=>LIKE '___'
+
+SELECT firstName,lastName,age,city FROM customers
+WHERE firstName LIKE "___";
+
+SELECT firstName,lastName,age,city FROM customers
+WHERE firstName LIKE "____";
+
+---------------------------------------------------------------------------------------
+
+=>LIKE '%' = is anything
+
+SELECT firstName,lastName,age,city FROM customers
+WHERE firstName LIKE "%";
+
+_facebook 
+SELECT firstName,lastName,age,city FROM customers
+WHERE firstName LIKE "\_%";
+
+facebook_app
+SELECT firstName,lastName,age,city FROM customers
+WHERE firstName LIKE "%_%";
+
+---------------------------------------------------------------------------------------
+

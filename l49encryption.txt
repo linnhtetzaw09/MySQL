@@ -1,0 +1,116 @@
+=>Encryption 
+
+=>SHA(String) Function      (Secure Hash Algorithm 1) plain text to encrypt code
+=>MD5(String) Function      (Message Hash Algorithm 1) plain text to encrypt code
+
+
+static code
+*result = 9db12d62cc4c68926dfcb1b9c93b1904
+SELECT MD5("SAVE MYANMAR");
+
+
+*result = NULL
+SELECT MD5(NULL);
+
+
+=>Terminal 
+
+=>Linux 
+ctrl+alt + t
+
+=>Window
+windows+r  cmd
+
+
+=>Linux 
+
+mysql login
+mysql -u root 
+or
+mysql -u root -p -h 127.0.0.1
+
+mysql logout
+exit; or \q
+
+
+=>Window  for XAMPP
+
+mysql login
+cd C:\xampp\mysql\bin
+mysql -u root -p
+
+mysql logout
+exit; or \q
+
+
+=>Window  for WAMP
+
+mysql login
+cd\
+cd wamp
+cd bin
+cd mysql
+
+mysql logout
+exit; or \q
+
+
+SHOW DATABASES;
+USE myfirstdatabase;
+
+SHOW TABLES;
+
+CREATE TABLE accounts(
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
+    email VARCHAR(50),
+    password VARCHAR(255)
+);
+
+DESC accounts;
+SHOW CREATE TABLE accounts;
+SHOW INDEX FROM accounts;
+
+INSERT INTO accounts (name,email,password)
+VALUES ('lin lin','abc@gamil.com',12345),
+('ki ki','kiki@gamil.com','1yu45'),
+('ui ui','ui@gamil.com','ab345');
+
+SELECT * FROM accounts;
+
+SELECT name,email
+    IF(password = 12345, 'correct password', 'incorrect password') AS "Verify"
+FROM accounts;
+
+SELECT name,email,
+    CASE
+        WHEN password = 12345 THEN "correct password is 12345"
+        WHEN password = '1yu45' THEN "correct password is 1yu45"
+        WHEN password = 'ab345' THEN "correct password is ab345"
+        ELSE 'Incorrect password'
+        END AS 'Verify accounts'
+FROM accounts;
+
+SELECT name,email,
+    CASE
+        WHEN password = SHA1(12345) THEN "correct password is 12345"
+        WHEN password = SHA1('1yu45') THEN "correct password is 1yu45"
+        WHEN password = SHA1('ab345') THEN "correct password is ab345"
+        ELSE 'Incorrect password'
+        END AS 'Verify accounts'
+FROM accounts;
+
+
+INSERT INTO accounts (name,email,password)
+VALUES ('lin lin','abc@gamil.com',MD5(12345)),
+('ki ki','kiki@gamil.com',MD5('1yu45')),
+('ui ui','ui@gamil.com',SHA1('ab345'));
+
+SELECT name,email,
+    CASE
+        WHEN password = MD5(12345) THEN "correct password is 12345"
+        WHEN password = MD5('1yu45') THEN "correct password is 1yu45"
+        WHEN password = SHA1('ab345') THEN "correct password is ab345"
+        ELSE 'Incorrect password'
+        END AS 'Verify accounts'
+FROM accounts;

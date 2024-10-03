@@ -1,0 +1,18 @@
+=>Char Length
+
+Syntax
+
+SELECT CHAR_LENGTH("Hello World");
+
+-------------------------------------------------
+
+SELECT * FROM persons;
+
+SELECT CHAR_LENGTH(firstname) FROM persons;
+SELECT firstname,CHAR_LENGTH(firstname) AS "TOTAL COUNT" FROM persons;
+
+SELECT CONCAT(firstname, " is ",CHAR_LENGTH(firstname)," characters long") FROM persons;
+SELECT CONCAT(firstname, " is ",CHAR_LENGTH(firstname)," characters long") AS Length FROM persons;
+
+-------------------------------------------------
+

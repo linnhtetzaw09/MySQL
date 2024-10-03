@@ -1,0 +1,72 @@
+=>Choose database
+
+USE WDF007;
+
+=>TABLE List
+SHOW TABLES
+SHOW FULL TABLES
+
+
+=>Check TABLE from current db to another db
+SHOW TABLES FROM DATABASENAME;
+SHOW TABLES IN DATABASENAME;
+
+SHOW TABLES FROM FULL DATABASENAME;
+SHOW TABLES IN FULL DATABASENAME;
+
+
+=>create TABLE
+=Syntex
+
+CREATE TABLE users(
+    column1 datatype,
+    column1 datatype,
+    column1 datatype,
+    ...........
+);
+
+CREATE TABLE IF NOT EXISTS users(
+    column1 datatype,
+    column1 datatype,
+    column1 datatype,
+    ...........
+);
+
+
+CREATE TABLE persons(
+    id INT,
+    firstname VARCHAR(size),
+    lastname VARCHAR(25),
+    city VARCHAR(255),
+    addrress VARCHAR(255)
+);
+
+
+
+---------------------------------------------------------------
+
+=>DROP TABLE  [Single]
+
+DROP TABLE persons;
+
+DROP TABLE IF EXISTS persons;
+
+=>Drop TABLE [Multi / Bulk]
+
+DROP TABLE persons,staffs,employees,users;
+
+DROP TABLE IF EXISTS persons,staffs,employees,users;
+
+-------------------------------------------------------------------
+
+
+=>RENAME TABLE
+
+*Syntax
+
+ALTER TABLE oldtablename
+RENAME TO newtablename;
+
+ALTER TABLE persons
+RENAME TO peoples;
+

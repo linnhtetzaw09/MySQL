@@ -1,0 +1,92 @@
+mysql -V
+
+mysql -u root -pLinhtetz@w492002
+
+mysql -u root -p -h localhost
+
+-------------------------------------------------------------------
+
+=>Check user list
+
+=>method 1
+SHOW DATABASES;
+USE mysql;
+SELECT user FROM user;
+
+=>method 2
+SELECT user FROM mysql.user;
+SELECT user,host FROM mysql.user;
+
+-------------------------------------------------------------------
+
+=>create user 
+
+=>method 1 (localhost)
+
+CREATE USER 'user1'@'localhost' IDENTIFIED BY 'myprojectserver1DB@#$';
+GRANT ALL PRIVILEGES ON exerciseone.* TO 'user1'@'localhost' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+
+CREATE USER 'user2'@'localhost' IDENTIFIED BY 'myprojectserver1DB@#$';
+GRANT ALL PRIVILEGES ON exerciseone.* TO 'user2'@'localhost' WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON exercisetwo.* TO 'user2'@'localhost' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+
+CREATE USER 'user3'@'localhost' IDENTIFIED BY 'myprojectserver1DB@#$';
+GRANT ALL PRIVILEGES ON *.* TO 'user3'@'localhost' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+
+
+=>method 2 (remote)
+
+CREATE USER 'user1'@'%' IDENTIFIED BY 'myprojectserver1DB@#$';
+GRANT ALL PRIVILEGES ON *.* TO 'user1'@'%' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+
+-------------------------------------------------------------------
+
+=>Update password
+
+mysql -u root -p
+SELECT user();
+
+ALTER USER 'user1'@'localhost' IDENTIFIED  BY 'myprojectserver2DB@#$';
+exit
+
+mysql -u user1 -p
+myprojectserver2DB@#$
+
+-------------------------------------------------------------------
+
+=>Lock user
+
+mysql -u root -p
+SELECT user();
+
+ALTER USER 'user1'@'localhost' ACCOUNT LOCK;
+
+
+=>Unlock user
+
+mysql -u root -p
+SELECT user();
+
+ALTER USER 'user1'@'localhost' ACCOUNT UNLOCK';
+
+mysql -u user1 -p
+myprojectserver2DB@#$
+
+-------------------------------------------------------------------
+
+=>Drop user
+
+mysql -u root -p
+SELECT user();
+
+DROP USER 'user1'@'localhost';
+DROP USER 'user2'@'localhost';
+DROP USER 'user3'@'localhost';
+DROP USER 'user1'@'%';
+
+
+-------------------------------------------------------------------

@@ -1,0 +1,104 @@
+=>CRUD CHALLENGES
+
+CREATE DATABASE IF NOT EXISTS shirtsdb;
+
+SHOW DATABASE;
+
+USE shirtsdb;
+
+CREATE TABLE IF NOT EXISTS shirts(
+    id INT NOT NULL AUTO_INCREMENT,
+    article VARCHAR(100),
+    color VARCHAR(15),
+    size VARCHAR(50),
+    PRIMARY KEY (id)
+);
+
+DESC shirts;
+SHOW CREATE TABLE shirts;
+
+INSERT INTO shirts (article,color,size)  VALUE('T-shirt','white','S');
+INSERT INTO shirts (article,color,size)  VALUES('TEE-shirt','white','M'),
+                                               ('POLO-shirt','red','L'),
+                                               ('T-shirt','white','S'),
+                                               ('POLO-shirt','green','M'),
+                                               ('T-shirt','pink','L'),
+                                               ('Sport-shirt','white','L'),
+                                               ('Tank-shirt','gray','XL'),
+                                               ('T-shirt','white','S'),
+                                               ('Sport-shirt','black','M');
+
+SELECT * FROM shirts;
+
+
+SELECT article,color,size FROM shirts;
+
+SELECT article,color,size FROM shirts
+WHERE size = 'M';
+
+SELECT article,color,size FROM shirts
+WHERE size = 'S';
+
+SELECT article,color,size FROM shirts
+WHERE article = 'T-shirt';
+
+=>UPDATE (BULK UPDATE)
+UPDATE shirts SET size = 'M' WHERE article = 'T-shirt';
+SELECT * FROM shirts;
+
+SELECT article,color,size FROM shirts
+WHERE article = "POLO-shirt";
+UPDATE shirts SET color = "brown" WHERE article = "POLO-shirt";
+
+SELECT * FROM shirts;
+
+=>UPDATE(SINGLE UPDATE)
+
+SELECT id,article,color,size FROM shirts
+WHERE article = "Sport-shirt";
+UPDATE shirts SET color = "yellow" WHERE id = 7;
+
+SELECT * FROM shirts;
+
+=>UPDATE(MULTI UPDATE)
+
+SELECT id,article,color,size FROM shirts
+WHERE id = 8;
+UPDATE shirts SET color = "violet",size = "XS" WHERE id = 8;
+
+SELECT * FROM shirts;
+
+
+=>DELETE(BULK DELETE)
+SELECT id,article,color,size FROM shirts
+WHERE article = "T-shirt";
+DELETE FROM shirts WHERE article = "T-shirt";
+
+=>DELETE(SINGLE DELETE)
+SELECT id,article,color,size FROM shirts
+WHERE id = 8;
+DELETE FROM shirts WHERE id = 8;
+DELETE FROM shirts WHERE id = 7;
+
+SELECT * FROM shirts;
+
+INSERT INTO shirts (article,color,size)  VALUE('T-shirt','white','S');
+
+
+=>TRUNCATE
+TRUNCATE TABLE shirts;
+SELECT * FROM shirts;
+
+INSERT INTO shirts (article,color,size)  VALUE('T-shirt','white','S');
+SELECT * FROM shirts;
+
+
+=>DROP TABLE
+DROP TABLE IF EXISTS shirts;
+
+=>DROP DATABASE
+DROP DATABASE IF EXISTS shirtsdb;
+
+
+--------------------------------------------------------------------------------------
+
